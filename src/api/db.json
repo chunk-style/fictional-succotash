@@ -1,0 +1,6 @@
+{
+  "users": [{ "id": 1, "name": "Shiba", "lastSeen": "2023-05-01" }],
+  "notifications": [
+    { "id": 1, "userId": 1, "subject": "Woof", "message": "Hi-ya!" }
+  ]
+}
