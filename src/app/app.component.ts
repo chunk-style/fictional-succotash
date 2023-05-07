@@ -5,9 +5,9 @@ import { Apollo, gql } from "apollo-angular";
   template: `
     <div *ngIf="loading">Loading...</div>
     <div *ngIf="error">Error :(</div>
-    <div *ngIf="rates">
-      <div *ngFor="let rate of rates">
-        <p>{{ rate.currency }}: {{ rate.rate }}</p>
+    <div *ngIf="notifications">
+      <div *ngFor="let n of notifications">
+        <p>{{ n.subject }}: {{ n.message }}</p>
       </div>
     </div>
     <router-outlet></router-outlet>
@@ -17,7 +17,7 @@ import { Apollo, gql } from "apollo-angular";
 export class AppComponent implements OnInit {
   title = "ii-notify";
 
-  rates: any[] = [];
+  notifications: any[] = [];
   loading = true;
   error: any;
 
@@ -26,16 +26,18 @@ export class AppComponent implements OnInit {
     this.apollo
       .watchQuery({
         query: gql`
-          {
-            rates(currency: "USD") {
-              currency
-              rate
+          query Notification {
+            notification @rest(type: "Notification", path: "notifications") {
+              id
+              userId
+              subject
+              message
             }
           }
         `,
       })
       .valueChanges.subscribe((result: any) => {
-        this.rates = result.data?.rates;
+        this.notifications = result.data?.notification;
         this.loading = result.loading;
         this.error = result.error;
       });

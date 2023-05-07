@@ -1,12 +1,14 @@
 import { NgModule } from "@angular/core";
 import { ApolloClientOptions, InMemoryCache } from "@apollo/client/core";
 import { ApolloModule, APOLLO_OPTIONS } from "apollo-angular";
-import { HttpLink } from "apollo-angular/http";
+import { RestLink } from "apollo-link-rest";
 
-const uri = "https://48p1r2roz4.sse.codesandbox.io"; // <-- add the URL of the GraphQL server here
-export function createApollo(httpLink: HttpLink): ApolloClientOptions<any> {
+const uri = "http://localhost:3000/"; // <-- add the URL of the GraphQL server here
+export function createApollo(): ApolloClientOptions<any> {
+  const restLink = new RestLink({ uri });
+
   return {
-    link: httpLink.create({ uri }),
+    link: restLink,
     cache: new InMemoryCache(),
   };
 }
@@ -17,7 +19,7 @@ export function createApollo(httpLink: HttpLink): ApolloClientOptions<any> {
     {
       provide: APOLLO_OPTIONS,
       useFactory: createApollo,
-      deps: [HttpLink],
+      deps: [],
     },
   ],
 })

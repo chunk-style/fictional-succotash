@@ -18,12 +18,14 @@
     "@angular/platform-browser": "^14.2.0",
     "@angular/platform-browser-dynamic": "^14.2.0",
     "@angular/router": "^14.2.0",
+    "@apollo/client": "^3.7.14",
     "apollo-angular": "^4.2.1",
+    "apollo-link-rest": "^0.9.0",
+    "graphql": "^16",
+    "qs": "^6.11.1",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",
-    "zone.js": "~0.11.4",
-    "@apollo/client": "^3.0.0",
-    "graphql": "^16"
+    "zone.js": "~0.11.4"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^14.2.11",
