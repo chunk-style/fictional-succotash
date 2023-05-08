@@ -1,5 +1,5 @@
-import { Component, OnInit } from "@angular/core";
-import { Apollo, gql } from "apollo-angular";
+import { Component } from "@angular/core";
+
 @Component({
   selector: "ii-root",
   templateUrl: "./app.component.html",

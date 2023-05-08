@@ -1,5 +1,35 @@
-Hey there!
-<button type="button" routerLink="/notifications">Notifications</button>
-<button type="button" routerLink="">Home</button>
-
-<router-outlet></router-outlet>
+<td-layout class="layout-nav-demo" sidenavWidth="280px">
+  <td-navigation-drawer
+    flex
+    sidenavTitle="WBNA"
+    name="Peanut"
+    email="Peanut.the.Dog@example.com"
+  >
+    <mat-nav-list>
+      <a mat-list-item tdLayoutToggle routerLink="">
+        <mat-icon>home</mat-icon>
+        Home
+      </a>
+      <a mat-list-item tdLayoutToggle routerLink="/notifications">
+        <mat-icon>event_note</mat-icon>
+        Notifications
+      </a>
+    </mat-nav-list>
+    <div tdNavigationDrawerMenu>
+      <mat-nav-list>
+        <a mat-list-item>
+          <mat-icon>account_box</mat-icon>
+          Profile
+        </a>
+      </mat-nav-list>
+    </div>
+  </td-navigation-drawer>
+  <td-layout-nav toolbarTitle="World's Best Notification App" routerLink="">
+    <button mat-icon-button td-menu-button tdLayoutToggle>
+      <mat-icon>menu</mat-icon>
+    </button>
+    <div class="mainContent">
+      <router-outlet></router-outlet>
+    </div>
+  </td-layout-nav>
+</td-layout>
