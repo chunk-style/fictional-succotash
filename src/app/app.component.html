@@ -24,12 +24,69 @@
       </mat-nav-list>
     </div>
   </td-navigation-drawer>
-  <td-layout-nav toolbarTitle="World's Best Notification App" routerLink="">
-    <button mat-icon-button td-menu-button tdLayoutToggle>
-      <mat-icon>menu</mat-icon>
-    </button>
-    <div class="mainContent">
-      <router-outlet></router-outlet>
+  <td-layout-nav>
+    <div td-toolbar-content layout="row" layout-align="start center" flex>
+      <button mat-icon-button td-menu-button tdLayoutToggle>
+        <mat-icon>menu</mat-icon>
+      </button>
+      <span [routerLink]="['/home']" class="cursor-pointer fade-in"
+        >Fictional Succotash</span
+      >
+      <mat-icon class="mat-icon-logo cursor-pointer">fireplace</mat-icon>
+
+      <span flex></span>
+      <ii-tray-icon></ii-tray-icon>
+      <button
+        mat-icon-button
+        matTooltip="Settings"
+        matTooltipShowDelay="0"
+        matTooltipPosition="below"
+        [matMenuTriggerFor]="moreMenu"
+      >
+        <mat-icon matListIcon>settings</mat-icon>
+      </button>
+      <mat-menu #moreMenu>
+        <button mat-menu-item>
+          <mat-icon matListIcon>brightness_low</mat-icon>
+          Dark Mode
+        </button>
+        <button
+          mat-menu-item
+          *ngIf="isAuthenticated | async"
+          [routerLink]="['/settings']"
+        >
+          <mat-icon matListIcon>settings</mat-icon>
+          Account Settings
+        </button>
+      </mat-menu>
+      <button hide-sm hide-xs mat-icon-button *ngIf="isAuthenticated | async">
+        <mat-icon matTooltip="Log Out" (click)="logout()">exit_to_app</mat-icon>
+      </button>
+      <button
+        hide-gt-sm
+        mat-icon-button
+        [matMenuTriggerFor]="mobileMenu"
+        *ngIf="isAuthenticated | async"
+      >
+        <mat-icon>more_vert</mat-icon>
+      </button>
+      <mat-menu #mobileMenu="matMenu">
+        <button mat-menu-item [routerLink]="['/settings']">
+          <mat-icon>settings</mat-icon>
+          Settings
+        </button>
+        <button mat-menu-item (click)="logout()">
+          <mat-icon matTooltip="Log Out">exit_to_app</mat-icon>
+          Logout
+        </button>
+        <mat-divider></mat-divider>
+      </mat-menu>
     </div>
+    <router-outlet></router-outlet>
+    <td-layout-footer>
+      <div layout="row" layout-align="center">
+        <span class="mat-caption">&copy; {{ currentYear }} ii-co</span>
+      </div>
+    </td-layout-footer>
   </td-layout-nav>
 </td-layout>

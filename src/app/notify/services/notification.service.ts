@@ -4,6 +4,7 @@ import { Apollo, gql } from "apollo-angular";
 export interface Notification {
   id: string;
   userId: string;
+  timeStamp: Date;
   subject: string;
   message: string;
 }
@@ -20,7 +21,7 @@ export interface NotificationList {
 export class NotificationService {
   constructor(private apollo: Apollo) {}
 
-  public getNotification(notificationId: string) {
+  public getNotification(notificationId: string | null) {
     const notificationQuery = gql`
       {
         message(id: ${notificationId})

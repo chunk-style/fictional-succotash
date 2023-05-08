@@ -41,7 +41,8 @@
             },
             "newlines-between": "always"
           }
-        ]
+        ],
+        "import/no-unresolved": 0
       }
     },
     {
