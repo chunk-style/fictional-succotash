@@ -10,6 +10,7 @@ import { MatSnackBarModule } from "@angular/material/snack-bar";
 import { MatTooltipModule } from "@angular/material/tooltip";
 import { CovalentCommonModule } from "@covalent/core/common";
 import { CovalentLayoutModule } from "@covalent/core/layout";
+import { CovalentUserProfileModule } from "@covalent/core/user-profile";
 
 const ngMaterial = [
   MatButtonModule,
@@ -22,7 +23,11 @@ const ngMaterial = [
   MatSnackBarModule,
 ];
 
-const covalent = [CovalentCommonModule, CovalentLayoutModule];
+const covalent = [
+  CovalentCommonModule,
+  CovalentUserProfileModule,
+  CovalentLayoutModule,
+];
 
 @NgModule({
   declarations: [],

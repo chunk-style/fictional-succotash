@@ -1,5 +1,5 @@
 <td-layout class="layout-nav-demo" sidenavWidth="280px">
-  <td-navigation-drawer
+  <!-- td-navigation-drawer
     flex
     sidenavTitle="WBNA"
     name="Peanut"
@@ -17,70 +17,45 @@
     </mat-nav-list>
     <div tdNavigationDrawerMenu>
       <mat-nav-list>
-        <a mat-list-item>
+        <a mat-list-item (click)="login()">
           <mat-icon>account_box</mat-icon>
           Profile
         </a>
       </mat-nav-list>
     </div>
-  </td-navigation-drawer>
+  </td-navigation-drawer -->
   <td-layout-nav>
     <div td-toolbar-content layout="row" layout-align="start center" flex>
-      <button mat-icon-button td-menu-button tdLayoutToggle>
+      <!-- button mat-icon-button td-menu-button tdLayoutToggle>
         <mat-icon>menu</mat-icon>
-      </button>
+      </button -->
       <span [routerLink]="['/home']" class="cursor-pointer fade-in"
         >Fictional Succotash</span
       >
       <mat-icon class="mat-icon-logo cursor-pointer">fireplace</mat-icon>
 
       <span flex></span>
-      <ii-tray-icon></ii-tray-icon>
-      <button
-        mat-icon-button
-        matTooltip="Settings"
-        matTooltipShowDelay="0"
-        matTooltipPosition="below"
-        [matMenuTriggerFor]="moreMenu"
-      >
-        <mat-icon matListIcon>settings</mat-icon>
-      </button>
-      <mat-menu #moreMenu>
-        <button mat-menu-item>
-          <mat-icon matListIcon>brightness_low</mat-icon>
-          Dark Mode
-        </button>
-        <button
-          mat-menu-item
-          *ngIf="isAuthenticated | async"
-          [routerLink]="['/settings']"
+      <ii-tray-icon *ngIf="isAuthenticated"></ii-tray-icon>
+      <div *ngIf="user | async as u; else loginBlock">
+        <td-user-profile name="{{ u.name }}" email="{{ u.email }}">
+          <ng-container td-user-action-list>
+            <button mat-list-item (click)="logout()">
+              <mat-icon matListAvatar>exit_to_app</mat-icon>
+              <span matLine>Sign out</span>
+            </button>
+          </ng-container>
+        </td-user-profile>
+      </div>
+      <ng-template #loginBlock>
+        <td-user-profile name="Welcome">
+          <ng-container td-user-action-list
+            ><button mat-list-item (click)="login()">
+              <mat-icon matListAvatar>exit_to_app</mat-icon>
+              <span matLine>Sign in</span>
+            </button></ng-container
+          ></td-user-profile
         >
-          <mat-icon matListIcon>settings</mat-icon>
-          Account Settings
-        </button>
-      </mat-menu>
-      <button hide-sm hide-xs mat-icon-button *ngIf="isAuthenticated | async">
-        <mat-icon matTooltip="Log Out" (click)="logout()">exit_to_app</mat-icon>
-      </button>
-      <button
-        hide-gt-sm
-        mat-icon-button
-        [matMenuTriggerFor]="mobileMenu"
-        *ngIf="isAuthenticated | async"
-      >
-        <mat-icon>more_vert</mat-icon>
-      </button>
-      <mat-menu #mobileMenu="matMenu">
-        <button mat-menu-item [routerLink]="['/settings']">
-          <mat-icon>settings</mat-icon>
-          Settings
-        </button>
-        <button mat-menu-item (click)="logout()">
-          <mat-icon matTooltip="Log Out">exit_to_app</mat-icon>
-          Logout
-        </button>
-        <mat-divider></mat-divider>
-      </mat-menu>
+      </ng-template>
     </div>
     <router-outlet></router-outlet>
     <td-layout-footer>

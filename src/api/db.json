@@ -1,7 +1,26 @@
 {
-  "users": [{ "id": 1, "name": "Shiba", "lastSeen": "2023-05-01" }],
+  "users": [
+    {
+      "0": "object",
+      "1": "Object",
+      "id": 1,
+      "name": "Shiba",
+      "email": "shiba@example.com",
+      "lastLogin": "2023-05-08T23:35:02.974Z"
+    }
+  ],
   "notifications": [
-    { "id": 1, "userId": 1, "subject": "Woof", "message": "Hi-ya!" },
-    { "id": 2, "userId": 1, "subject": "ワンワン", "message": "今日は🐶" }
+    {
+      "id": 1,
+      "userId": 1,
+      "subject": "Woof",
+      "message": "Hi-ya!"
+    },
+    {
+      "id": 2,
+      "userId": 1,
+      "subject": "ワンワン",
+      "message": "今日は🐶"
+    }
   ]
 }
