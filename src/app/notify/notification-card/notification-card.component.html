@@ -1,6 +1,19 @@
 <div *ngIf="notification | async as n; else elseBlock">
-  {{ n.message }} <br />
-  {{ n.subject }}
+  <mat-card class="example-card">
+    <mat-card-header>
+      <mat-card-title>{{ n.subject }}</mat-card-title>
+      <mat-card-subtitle>{{ n.id }}</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <p>
+        {{ n.message }}
+      </p>
+    </mat-card-content>
+  </mat-card>
 </div>
 
-<ng-template #elseBlock> Trying to get that notification </ng-template>
+<ng-template #elseBlock>
+  <mat-card>
+    <mat-card-content>Trying to get that notification</mat-card-content>
+  </mat-card>
+</ng-template>

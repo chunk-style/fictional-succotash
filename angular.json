@@ -46,7 +46,11 @@
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": ["src/favicon.ico", "src/assets"],
-            "styles": ["src/styles.scss"],
+            "styles": [
+              "src/styles.scss",
+              "node_modules/@covalent/core/common/platform.css",
+              "node_modules/@covalent/core/theming/prebuilt/blue-grey-deep-orange.css"
+            ],
             "scripts": []
           },
           "configurations": {
