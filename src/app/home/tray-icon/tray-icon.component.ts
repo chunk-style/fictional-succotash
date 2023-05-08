@@ -4,7 +4,7 @@ import { map, tap } from "rxjs";
 import {
   NotificationService,
   Notification,
-} from "src/app/notify/services/notification.service";
+} from "src/app/services/notification.service";
 
 @Component({
   selector: "ii-tray-icon",

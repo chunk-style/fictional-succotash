@@ -6,7 +6,7 @@ import { switchMap } from "rxjs/operators";
 import {
   NotificationService,
   Notification,
-} from "../services/notification.service";
+} from "../../services/notification.service";
 
 @Component({
   selector: "ii-notification-card",
