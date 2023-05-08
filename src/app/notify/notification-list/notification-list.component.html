@@ -1,0 +1,38 @@
+<mat-sidenav-container class="notify-container">
+  <section>
+    <mat-list>
+      <mat-list-item *ngFor="let notification of notifications | async">
+        <mat-icon
+          (click)="showDetails($event)"
+          [attr.data-id]="notification.id"
+          matListItemIcon
+          >note</mat-icon
+        >
+        <div matListItemTitle>{{ notification.subject }}</div>
+        <div matListItemLine>{{ notification.timestamp | date }}</div>
+      </mat-list-item>
+    </mat-list>
+  </section>
+  <mat-drawer class="notify-detail" #sidesheet position="end">
+    <div *ngIf="notificationDetail | async as n; else elseBlock">
+      <mat-card class="example-card">
+        <mat-card-header>
+          <mat-card-title>{{ n.subject }}</mat-card-title>
+          <mat-card-subtitle>{{ n.timestamp }}</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <p>{{ n.message }}</p>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    <ng-template #elseBlock>
+      <mat-card>
+        <mat-card-content>Trying to get that notification</mat-card-content>
+      </mat-card>
+    </ng-template>
+    <div class="button-row">
+      <button mat-button (click)="sidesheet.close()">Close</button>
+    </div>
+  </mat-drawer>
+</mat-sidenav-container>

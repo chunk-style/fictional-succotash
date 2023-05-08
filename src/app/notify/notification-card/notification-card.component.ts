@@ -1,10 +1,10 @@
 import { Component, OnInit } from "@angular/core";
-import { Observable, Observer, map } from "rxjs";
-
+import { ActivatedRoute, ParamMap } from "@angular/router";
 import {
   NotificationService,
   Notification,
-} from "../services/notification.service";
+} from "@ii-services/notification.service";
+import { Observable, switchMap, map } from "rxjs";
 
 @Component({
   selector: "ii-notification-card",
@@ -14,13 +14,18 @@ import {
 export class NotificationCardComponent implements OnInit {
   notification!: Observable<Notification>;
 
-  constructor(private readonly _notificationService: NotificationService) {}
+  constructor(
+    private readonly _notificationService: NotificationService,
+    private readonly route: ActivatedRoute
+  ) {}
 
   ngOnInit(): void {
-    this.notification = this._notificationService.getNotification("1").pipe(
+    this.notification = this.route.paramMap.pipe(
+      map((params: ParamMap) => {
+        return params.get("id");
+      }),
+      switchMap((id) => this._notificationService.getNotification(id)),
       map((result) => {
-        console.log(result);
-
         return result.data?.message;
       })
     );
