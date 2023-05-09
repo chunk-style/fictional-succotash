@@ -1,5 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Apollo, gql } from "apollo-angular";
+import { BehaviorSubject, Subject, ReplaySubject } from "rxjs";
 
 export interface User {
   id: string;
@@ -19,9 +20,19 @@ export interface UserList {
   providedIn: "root",
 })
 export class UserService {
-  constructor(private apollo: Apollo) {}
+  public isAuthenticated: BehaviorSubject<boolean>;
+  public userId: Subject<string> = new ReplaySubject(1);
 
-  public getUser(userId: string | null) {
+  constructor(private apollo: Apollo) {
+    let user = localStorage.getItem("userId");
+
+    this.isAuthenticated = new BehaviorSubject(user ? true : false);
+    if (user) {
+      this.userId.next(user);
+    }
+  }
+
+  public getUser(userId: string) {
     const query = gql`
       {
         record(id: ${userId})
@@ -61,5 +72,21 @@ export class UserService {
     };
 
     return this.apollo.mutate<UserRecord>({ mutation, variables });
+  }
+
+  public getUserId() {
+    return this.userId.asObservable();
+  }
+
+  public logout(): void {
+    localStorage.clear();
+    this.isAuthenticated.next(false);
+  }
+
+  public login(userId: string): void {
+    localStorage.setItem("userId", userId);
+    this.userId.next(userId);
+    // this._userService.setLogin("1").subscribe();
+    this.isAuthenticated.next(true);
   }
 }

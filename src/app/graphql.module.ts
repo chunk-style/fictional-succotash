@@ -10,6 +10,17 @@ export function createApollo(): ApolloClientOptions<any> {
   return {
     link: restLink,
     cache: new InMemoryCache(),
+    defaultOptions: {
+      watchQuery: {
+        errorPolicy: "all",
+      },
+      query: {
+        errorPolicy: "all",
+      },
+      mutate: {
+        errorPolicy: "all",
+      },
+    },
   };
 }
 

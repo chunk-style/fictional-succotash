@@ -1,47 +1,44 @@
-import { Component } from "@angular/core";
+import { Component, OnInit, OnDestroy } from "@angular/core";
 import { Router } from "@angular/router";
-import { Observable, BehaviorSubject, map } from "rxjs";
+import { ApolloQueryResult } from "@apollo/client/core";
+import { Observable, Subscription } from "rxjs";
+import { map, switchMap, tap } from "rxjs/operators";
 
-import { User, UserService } from "./services/user.service";
+import { User, UserRecord, UserService } from "./services/user.service";
 
 @Component({
   selector: "ii-root",
   templateUrl: "./app.component.html",
   styles: [],
 })
-export class AppComponent {
+export class AppComponent implements OnInit, OnDestroy {
   title = "Fictional Succotash";
   currentYear = new Date().getFullYear();
-  user!: Observable<User | null>;
+  user: User | null = null;
 
-  private readonly authSubject$: BehaviorSubject<boolean> = new BehaviorSubject(
-    false
-  );
-  isAuthenticated = false;
+  private userSub!: Subscription;
 
   constructor(
-    private readonly _userService: UserService,
-    private readonly _router: Router
+    private readonly _router: Router,
+    private readonly _userService: UserService
   ) {}
 
-  public logout(): void {
-    this.authSubject$.next(false);
-    this.isAuthenticated = this.authSubject$.getValue();
-    this.user = new Observable((sub) => {
-      sub.next(null);
-      sub.complete();
-    });
-    this._router.navigate(["/"]);
+  ngOnInit(): void {
+    this.userSub = this._userService
+      .getUserId()
+      .pipe(switchMap((id) => this._userService.getUser(id)))
+      .subscribe((result) => {
+        this.user = result.data.record;
+      });
   }
 
-  public login(): void {
-    this.user = this._userService.getUser("1").pipe(
-      map((result) => {
-        return result.data?.record;
-      })
-    );
-    this._userService.setLogin("1").subscribe();
-    this.authSubject$.next(true);
-    this.isAuthenticated = this.authSubject$.getValue();
+  ngOnDestroy(): void {
+    this.userSub.unsubscribe();
+  }
+
+  logout() {
+    this.user = null;
+    this._userService.logout();
+    this._router.navigate(["login"]);
   }
 }

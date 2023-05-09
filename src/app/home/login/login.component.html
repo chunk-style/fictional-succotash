@@ -1,0 +1,11 @@
+<mat-card class="login-card">
+  <mat-card-content>
+    <mat-form-field>
+      <mat-label>User {{ user }}</mat-label>
+      <input matInput placeholder="Ex. 1" [(ngModel)]="user" />
+    </mat-form-field>
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-button (click)="login()">LOGIN</button>
+  </mat-card-actions>
+</mat-card>

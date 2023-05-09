@@ -4,7 +4,7 @@ import { Apollo, gql } from "apollo-angular";
 export interface Notification {
   id: string;
   userId: string;
-  timeStamp: Date;
+  timestamp: string;
   subject: string;
   message: string;
 }
@@ -30,6 +30,7 @@ export class NotificationService {
           userId
           subject
           message
+          timestamp
         }
       }
     `;
@@ -49,6 +50,28 @@ export class NotificationService {
           userId
           subject
           message
+          timestamp
+        }
+      }
+    `;
+
+    const queryInput = {
+      query: notificationQuery,
+    };
+
+    return this.apollo.query<NotificationList>(queryInput);
+  }
+
+  public getNotificationsForUser(userId: string) {
+    const notificationQuery = gql`
+      {
+        notifications(id: ${userId}) 
+        @rest(type: "Notification", path: "notifications/?userId={args.id}&_sort=timestamp&_order=desc") {
+          id
+          userId
+          subject
+          message
+          timestamp
         }
       }
     `;

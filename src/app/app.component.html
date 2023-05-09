@@ -35,9 +35,10 @@
       <mat-icon class="mat-icon-logo cursor-pointer">fireplace</mat-icon>
 
       <span flex></span>
-      <ii-tray-icon *ngIf="isAuthenticated"></ii-tray-icon>
-      <div *ngIf="user | async as u; else loginBlock">
-        <td-user-profile name="{{ u.name }}" email="{{ u.email }}">
+
+      <div *ngIf="user">
+        <ii-tray-icon></ii-tray-icon>
+        <td-user-profile name="{{ user.name }}" email="{{ user.email }}">
           <ng-container td-user-action-list>
             <button mat-list-item (click)="logout()">
               <mat-icon matListAvatar>exit_to_app</mat-icon>
@@ -46,16 +47,6 @@
           </ng-container>
         </td-user-profile>
       </div>
-      <ng-template #loginBlock>
-        <td-user-profile name="Welcome">
-          <ng-container td-user-action-list
-            ><button mat-list-item (click)="login()">
-              <mat-icon matListAvatar>exit_to_app</mat-icon>
-              <span matLine>Sign in</span>
-            </button></ng-container
-          ></td-user-profile
-        >
-      </ng-template>
     </div>
     <router-outlet></router-outlet>
     <td-layout-footer>

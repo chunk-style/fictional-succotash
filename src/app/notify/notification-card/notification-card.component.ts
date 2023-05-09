@@ -1,12 +1,10 @@
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, ParamMap } from "@angular/router";
-import { Observable, map } from "rxjs";
-import { switchMap } from "rxjs/operators";
-
 import {
   NotificationService,
   Notification,
-} from "../../services/notification.service";
+} from "@services/notification.service";
+import { Observable, switchMap, map } from "rxjs";
 
 @Component({
   selector: "ii-notification-card",
