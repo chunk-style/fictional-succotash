@@ -1,4 +1,5 @@
-import { Component, OnInit, TemplateRef, ViewChild } from "@angular/core";
+import { Component, OnInit, ViewChild } from "@angular/core";
+import { MatDrawer } from "@angular/material/sidenav";
 import {
   NotificationService,
   Notification,
@@ -13,6 +14,8 @@ import { Observable, switchMap, map } from "rxjs";
 })
 export class NotificationListComponent implements OnInit {
   notifications!: Observable<Notification[]>;
+  notificationDetail!: Observable<Notification>;
+  @ViewChild("sidesheet") public sidesheet!: MatDrawer;
 
   constructor(
     private readonly _notificationService: NotificationService,
@@ -26,5 +29,20 @@ export class NotificationListComponent implements OnInit {
         return result.data?.notifications;
       })
     );
+  }
+
+  showDetails(ev: any): void {
+    const el: Element = ev.target as Element;
+    const notificationId = el.getAttribute("data-id");
+
+    this.notificationDetail = this._notificationService
+      .getNotification(notificationId)
+      .pipe(
+        map((result) => {
+          return result.data?.message;
+        })
+      );
+
+    this.sidesheet.open();
   }
 }
