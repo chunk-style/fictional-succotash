@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { MatDrawer } from "@angular/material/sidenav";
+import { NotificationPollerService } from "@ii-services/notification-poller.service";
 import {
   NotificationService,
   Notification,
@@ -19,6 +20,7 @@ export class NotificationListComponent implements OnInit {
 
   constructor(
     private readonly _notificationService: NotificationService,
+    private readonly _pollerService: NotificationPollerService,
     private readonly _userService: UserService
   ) {}
 
@@ -29,6 +31,7 @@ export class NotificationListComponent implements OnInit {
         return result.data?.notifications;
       })
     );
+    this._pollerService.setActivityDate();
   }
 
   showDetails(ev: any): void {

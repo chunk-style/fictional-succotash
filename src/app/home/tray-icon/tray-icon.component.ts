@@ -1,50 +1,48 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, OnDestroy } from "@angular/core";
 import { MatSnackBar } from "@angular/material/snack-bar";
-import {
-  NotificationService,
-  Notification,
-} from "@ii-services/notification.service";
-import { UserService } from "@ii-services/user.service";
-import { switchMap, tap } from "rxjs";
+import { NotificationPollerService } from "@ii-services/notification-poller.service";
+import { Notification } from "@ii-services/notification.service";
+import { Subscription } from "rxjs/";
 
 @Component({
   selector: "ii-tray-icon",
   templateUrl: "./tray-icon.component.html",
   styleUrls: ["./tray-icon.component.scss"],
 })
-export class TrayIconComponent implements OnInit {
+export class TrayIconComponent implements OnInit, OnDestroy {
   notificationsCount: number = 0;
   hideBadge = true;
   notifications: Notification[] = [];
+  private subscription!: Subscription;
 
   constructor(
-    private readonly _notificationService: NotificationService,
-    private readonly _userService: UserService,
+    private readonly _pollerService: NotificationPollerService,
     private readonly _snackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
-    this._userService
-      .getUserId()
-      .pipe(
-        switchMap((id) =>
-          this._notificationService.getNotificationsForUser(id)
-        ),
-        tap((result) => {
-          if (result.data?.notifications?.length) {
-            this.notificationsCount = result.data.notifications.length;
-            this.hideBadge = false;
-            this.notifications = result.data.notifications.slice(0, 5);
+    this.subscription = this._pollerService.newNotifications.subscribe(
+      (result) => {
+        if (result.length) {
+          this.notificationsCount = result.length;
+          this.hideBadge = false;
+          this.notifications = result.slice(0, 5);
 
-            this._snackBar.open("You have new notifications", "🤘", {
-              duration: 3000,
-            });
-          } else {
-            this.notificationsCount = 0;
-            this.hideBadge = false;
-          }
-        })
-      )
-      .subscribe();
+          this._snackBar.open("You have new notifications", "🤘", {
+            duration: 3000,
+          });
+        } else {
+          this.notificationsCount = 0;
+          this.hideBadge = true;
+        }
+      }
+    );
+  }
+
+  ngOnDestroy(): void {
+    if (this.subscription) {
+      this._pollerService.stopPolling();
+      this.subscription.unsubscribe();
+    }
   }
 }
