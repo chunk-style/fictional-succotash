@@ -1,29 +1,4 @@
 <td-layout class="layout-nav-demo" sidenavWidth="280px">
-  <!-- td-navigation-drawer
-    flex
-    sidenavTitle="WBNA"
-    name="Peanut"
-    email="Peanut.the.Dog@example.com"
-  >
-    <mat-nav-list>
-      <a mat-list-item tdLayoutToggle routerLink="">
-        <mat-icon>home</mat-icon>
-        Home
-      </a>
-      <a mat-list-item tdLayoutToggle routerLink="/notifications">
-        <mat-icon>event_note</mat-icon>
-        Notifications
-      </a>
-    </mat-nav-list>
-    <div tdNavigationDrawerMenu>
-      <mat-nav-list>
-        <a mat-list-item (click)="login()">
-          <mat-icon>account_box</mat-icon>
-          Profile
-        </a>
-      </mat-nav-list>
-    </div>
-  </td-navigation-drawer -->
   <td-layout-nav>
     <div td-toolbar-content layout="row" layout-align="start center" flex>
       <!-- button mat-icon-button td-menu-button tdLayoutToggle>
@@ -40,6 +15,9 @@
         <ii-tray-icon></ii-tray-icon>
         <td-user-profile name="{{ user.name }}" email="{{ user.email }}">
           <ng-container td-user-action-list>
+            <button mat-list-item (click)="logout()">
+              <span matLine>{{ user.lastLogin | timeAgo }}</span>
+            </button>
             <button mat-list-item (click)="logout()">
               <mat-icon matListAvatar>exit_to_app</mat-icon>
               <span matLine>Sign out</span>
