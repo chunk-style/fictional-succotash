@@ -1,4 +1,5 @@
 import { Injectable } from "@angular/core";
+import { FetchPolicy } from "@apollo/client/core";
 import { Apollo, gql } from "apollo-angular";
 
 export interface Notification {
@@ -63,10 +64,11 @@ export class NotificationService {
   }
 
   public getNotificationsForUser(userId: string) {
+    const url = `notifications/?userId={args.id}&_sort=timestamp&_order=desc`;
     const notificationQuery = gql`
       {
         notifications(id: ${userId}) 
-        @rest(type: "Notification", path: "notifications/?userId={args.id}&_sort=timestamp&_order=desc") {
+        @rest(type: "Notification", path: "${url}") {
           id
           userId
           subject
@@ -76,8 +78,10 @@ export class NotificationService {
       }
     `;
 
+    const noCache: FetchPolicy = "no-cache";
     const queryInput = {
       query: notificationQuery,
+      fetchPolicy: noCache,
     };
 
     return this.apollo.query<NotificationList>(queryInput);

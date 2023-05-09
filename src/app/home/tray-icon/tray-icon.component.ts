@@ -2,7 +2,6 @@ import { Component, OnInit, OnDestroy } from "@angular/core";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { NotificationPollerService } from "@ii-services/notification-poller.service";
 import { Notification } from "@ii-services/notification.service";
-import { UserService } from "@ii-services/user.service";
 import { Subscription } from "rxjs/";
 
 @Component({
@@ -18,7 +17,6 @@ export class TrayIconComponent implements OnInit, OnDestroy {
 
   constructor(
     private readonly _pollerService: NotificationPollerService,
-    private readonly _userService: UserService,
     private readonly _snackBar: MatSnackBar
   ) {}
 

@@ -17,11 +17,11 @@ for (let i = 1; i <= 10; i++) {
     id: i,
     name: `${first} ${last}`,
     email: email,
-    lastLogin: faker.date.recent(60),
+    lastActivity: faker.date.recent(30),
   });
 }
 
-for (let i = 1; i <= 100; i++) {
+for (let i = 1; i <= 200; i++) {
   const userId = faker.random.numeric();
 
   db.notifications.push({
@@ -29,7 +29,7 @@ for (let i = 1; i <= 100; i++) {
     userId,
     subject: faker.music.songName(),
     message: faker.hacker.phrase(),
-    timestamp: faker.date.recent(60),
+    timestamp: faker.date.recent(90),
   });
 }
 

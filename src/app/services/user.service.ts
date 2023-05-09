@@ -6,7 +6,7 @@ export interface User {
   id: string;
   name: string;
   email: string;
-  lastLogin: string;
+  lastActivity: string;
 }
 
 export interface UserRecord {
@@ -40,7 +40,7 @@ export class UserService {
           id
           name
           email
-          lastLogin
+          lastActivity
         }
       }
     `;
@@ -52,7 +52,7 @@ export class UserService {
     return this.apollo.query<UserRecord>(queryInput);
   }
 
-  public setLogin(userId: string | null) {
+  public setLastActivity(userId: string, activityDate: string) {
     const mutation = gql`
       mutation UpdateLastSeen($time: any!){
         record(id: ${userId}, input: $userUpdate)
@@ -60,14 +60,14 @@ export class UserService {
           id
           name
           email
-          lastLogin
+          lastActivity
         }
       }
     `;
 
     const variables = {
       userUpdate: {
-        lastLogin: new Date(Date.now()).toISOString(),
+        lastActivity: activityDate,
       },
     };
 

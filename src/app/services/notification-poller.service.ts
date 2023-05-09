@@ -25,7 +25,7 @@ export class NotificationPollerService {
     new ReplaySubject(1);
   private subscription!: Subscription;
   private ackTimestamp!: string;
-  private lastTimestamp: string = "1999-12-31";
+  private lastTimestamp: string = "";
 
   constructor(
     private readonly _notificationService: NotificationService,
@@ -39,10 +39,28 @@ export class NotificationPollerService {
     return this._newNotifications.asObservable();
   }
 
-  public stopPolling(): void {
+  public stopPolling() {
     this.ackTimestamp = "";
-    this.lastTimestamp = "1999-12-31";
+    this.lastTimestamp = "";
+    this._newNotifications.next([]);
     this.subscription.unsubscribe();
+  }
+
+  public setActivityDate() {
+    if (this.lastTimestamp === "") return;
+
+    this._userService
+      .getUserId()
+      .pipe(
+        switchMap((id) =>
+          this._userService.setLastActivity(id, this.lastTimestamp)
+        ),
+        take(1)
+      )
+      .subscribe((res) => {
+        console.log(res.data?.record);
+      });
+    this._newNotifications.next([]);
   }
   /**
    * Gets unread notifications for the logged in user.
@@ -55,7 +73,7 @@ export class NotificationPollerService {
         switchMap((id) => this._userService.getUser(id)),
         tap((user) => {
           userId = user.data?.record?.id;
-          this.ackTimestamp = user.data?.record?.lastLogin;
+          this.ackTimestamp = user.data?.record?.lastActivity;
         }),
         switchMap(() => timer(0, interval))
       )
@@ -69,22 +87,19 @@ export class NotificationPollerService {
   private startPolling(interval: number): void {
     this.subscription = this.pollNotifications(interval).subscribe(
       (response) => {
-        console.log("processing notifications...");
         const newNotifications = response.data.notifications.filter(
           (n) => n.timestamp > this.ackTimestamp
         );
 
-        // should be sorted, but in case the are not
+        // should be sorted, but in case they are not
         const latestTimestamp = newNotifications.reduce(
           (acc, val) => (acc > val.timestamp ? acc : val.timestamp),
-          "2000-01-01"
+          ""
         );
 
         if (this.lastTimestamp < latestTimestamp) {
           this.lastTimestamp = latestTimestamp;
           this._newNotifications.next(newNotifications);
-          console.log(newNotifications);
-          console.log(latestTimestamp);
         }
       }
     );

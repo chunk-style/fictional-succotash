@@ -16,7 +16,7 @@
         <td-user-profile name="{{ user.name }}" email="{{ user.email }}">
           <ng-container td-user-action-list>
             <button mat-list-item (click)="logout()">
-              <span matLine>{{ user.lastLogin | timeAgo }}</span>
+              <span matLine>{{ user.lastActivity | timeAgo }}</span>
             </button>
             <button mat-list-item (click)="logout()">
               <mat-icon matListAvatar>exit_to_app</mat-icon>
