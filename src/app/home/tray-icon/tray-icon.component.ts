@@ -1,11 +1,11 @@
 import { Component, OnInit } from "@angular/core";
 import { MatSnackBar } from "@angular/material/snack-bar";
-import { User, UserRecord, UserService } from "@services/user.service";
-import { switchMap, map, tap } from "rxjs";
 import {
   NotificationService,
   Notification,
-} from "src/app/services/notification.service";
+} from "@ii-services/notification.service";
+import { UserService } from "@ii-services/user.service";
+import { switchMap, tap } from "rxjs";
 
 @Component({
   selector: "ii-tray-icon",
@@ -46,14 +46,5 @@ export class TrayIconComponent implements OnInit {
         })
       )
       .subscribe();
-  }
-
-  viewNotificationDetails(): void {
-    // const path: string[] = ['notifications'];
-    // if (notification) {
-    //   path.push(notification.notificationId);
-    // }
-    // tslint:disable-next-line:no-floating-promises
-    // this._router.navigate(path);
   }
 }

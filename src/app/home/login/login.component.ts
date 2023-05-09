@@ -1,7 +1,6 @@
 import { Component } from "@angular/core";
 import { Router } from "@angular/router";
-
-import { UserService } from "../../services/user.service";
+import { UserService } from "@ii-services/user.service";
 
 @Component({
   selector: "ii-login-card",

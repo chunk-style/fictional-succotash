@@ -3,7 +3,7 @@ import { ActivatedRoute, ParamMap } from "@angular/router";
 import {
   NotificationService,
   Notification,
-} from "@services/notification.service";
+} from "@ii-services/notification.service";
 import { Observable, switchMap, map } from "rxjs";
 
 @Component({

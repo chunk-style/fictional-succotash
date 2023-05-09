@@ -2,8 +2,8 @@ import { Component, OnInit, TemplateRef, ViewChild } from "@angular/core";
 import {
   NotificationService,
   Notification,
-} from "@services/notification.service";
-import { UserService } from "@services/user.service";
+} from "@ii-services/notification.service";
+import { UserService } from "@ii-services/user.service";
 import { Observable, switchMap, map } from "rxjs";
 
 @Component({

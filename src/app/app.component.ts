@@ -1,10 +1,8 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
 import { Router } from "@angular/router";
-import { ApolloQueryResult } from "@apollo/client/core";
-import { Observable, Subscription } from "rxjs";
-import { map, switchMap, tap } from "rxjs/operators";
-
-import { User, UserRecord, UserService } from "./services/user.service";
+import { User, UserService } from "@ii-services/user.service";
+import { Subscription } from "rxjs";
+import { switchMap } from "rxjs/operators";
 
 @Component({
   selector: "ii-root",
