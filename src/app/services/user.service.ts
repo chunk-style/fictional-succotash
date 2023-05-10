@@ -52,6 +52,25 @@ export class UserService {
     return this.apollo.query<UserRecord>(queryInput);
   }
 
+  public getUsers() {
+    const query = gql`
+      {
+        list @rest(type: "User", path: "users/") {
+          id
+          name
+          email
+          lastActivity
+        }
+      }
+    `;
+
+    const queryInput = {
+      query,
+    };
+
+    return this.apollo.query<UserList>(queryInput);
+  }
+
   public setLastActivity(userId: string, activityDate: string) {
     const mutation = gql`
       mutation UpdateLastSeen($time: any!){
